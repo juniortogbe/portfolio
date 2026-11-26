@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TOGBE Kodjo Luc Junior — Génie Mécanique</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%99%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f2f3f0;
+    --surface: #ffffff;
+    --ink: #15181b;
+    --muted: #5b6470;
+    --line: #d7dad4;
+    --accent: #b8490f;
+    --accent-ink: #ffffff;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14171a; --surface: #1b1f23; --ink: #eceeef;
+      --muted: #9aa3ac; --line: #2b3136; --accent: #e07a3a; --accent-ink: #14171a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14171a; --surface: #1b1f23; --ink: #eceeef;
+    --muted: #9aa3ac; --line: #2b3136; --accent: #e07a3a; --accent-ink: #14171a;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, Segoe UI, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+
+  .topbar {
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .topbar-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0.9rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.92rem;
+  }
+  .mark { font-weight: 600; letter-spacing: 0.01em; }
+  nav { display: flex; gap: 1.25rem; }
+  nav button {
+    background: none;
+    border: none;
+    font: inherit;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.25rem 0.1rem;
+    border-bottom: 2px solid transparent;
+  }
+  nav button.active { color: var(--ink); border-bottom-color: var(--accent); }
+  nav button:focus-visible, a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  main { max-width: 760px; margin: 0 auto; padding: 0 1.25rem 4rem; }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* --- Nameplate hero --- */
+  .nameplate {
+    margin-top: 2.5rem;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .nameplate-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.5rem 1.5rem 1.1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .nameplate h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+  }
+  .nameplate .role {
+    color: var(--muted);
+    font-size: 1rem;
+  }
+  .nameplate .tag {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 0.3rem 0.55rem;
+    white-space: nowrap;
+  }
+  .nameplate-contact {
+    border-top: 1px solid var(--line);
+    padding: 0.85rem 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .nameplate-contact a { color: var(--muted); text-decoration: none; }
+  .nameplate-contact a:hover { color: var(--accent); }
+
+  section.block { margin-top: 3rem; }
+  section.block h2 {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    font-weight: 500;
+    margin: 0 0 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--line);
+  }
+  section.block > p.lead {
+    max-width: 62ch;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .skill-group h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    margin: 0 0 0.6rem;
+  }
+  .skill-group ul { margin: 0; padding-left: 1.1rem; }
+  .skill-group li { margin-bottom: 0.4rem; }
+  .skill-group li b { color: var(--ink); font-weight: 600; }
+
+  .entry {
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 1rem;
+  }
+  .entry:last-child { border-bottom: none; }
+  @media (max-width: 600px) {
+    .entry { grid-template-columns: 1fr; gap: 0.3rem; }
+  }
+  .entry .period {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    padding-top: 0.15rem;
+  }
+  .entry .title { font-weight: 600; }
+  .entry .org { color: var(--accent); font-weight: 500; }
+  .entry ul { margin: 0.5rem 0 0; padding-left: 1.1rem; }
+  .entry li { margin-bottom: 0.3rem; color: var(--muted); }
+
+  .project { margin-bottom: 1.5rem; }
+  .project:last-child { margin-bottom: 0; }
+  .project .p-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .project .p-head span:last-child {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-weight: 400;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .project p { margin: 0; color: var(--muted); max-width: 60ch; }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.7rem; }
+  .badges span {
+    border: 1px solid var(--line);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    color: var(--muted);
+  }
+
+  footer {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  footer a { color: var(--muted); }
+
+  /* --- Legal pages --- */
+  .legal h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem;
+    margin: 2.5rem 0 0.3rem;
+  }
+  .legal .updated {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  .legal h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.02rem;
+    font-weight: 600;
+    margin: 1.8rem 0 0.5rem;
+    border: none;
+    padding: 0;
+    color: var(--ink);
+    letter-spacing: normal;
+  }
+  .legal p, .legal li { color: var(--muted); max-width: 65ch; }
+  .legal ul { padding-left: 1.1rem; }
+
+  .project figure.drawing {
+    margin: 0.9rem 0 0;
+    border: 1px solid var(--line);
+    background: #ffffff;
+  }
+  .project figure.drawing img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .project figure.drawing figcaption {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    padding: 0.5rem 0.7rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .dl-btn {
+    margin-top: 0.9rem;
+    display: inline-block;
+    background: var(--ink);
+    color: var(--bg);
+    border: 1px solid var(--ink);
+    border-radius: 3px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.55rem 0.9rem;
+    cursor: pointer;
+  }
+  .dl-btn:hover { opacity: 0.85; }
+  .dl-note {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* --- Documents (liens Drive) --- */
+  .doc-list { list-style: none; margin: 0; padding: 0; }
+  .doc-item {
+    display: grid; grid-template-columns: 1fr auto; gap: 0.5rem 1rem;
+    align-items: center; padding: 0.9rem 0; border-bottom: 1px solid var(--line);
+  }
+  .doc-item:last-child { border-bottom: none; }
+  .doc-name { font-weight: 600; }
+  .doc-desc { color: var(--muted); font-size: 0.88rem; margin-top: 0.15rem; }
+  .doc-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .doc-actions a {
+    font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+    text-decoration: none; padding: 0.45rem 0.8rem; border: 1px solid var(--ink);
+    border-radius: 3px; color: var(--ink);
+  }
+  .doc-actions a.primary { background: var(--ink); color: var(--bg); }
+  .doc-actions a:hover { opacity: 0.8; }
+  @media (max-width: 600px) { .doc-item { grid-template-columns: 1fr; } }
+  .proj-link {
+    display: inline-block; margin-top: 0.6rem; font-family: 'Inter', sans-serif;
+    font-size: 0.82rem; font-weight: 600; text-decoration: none; color: var(--ink);
+    padding: 0.4rem 0.8rem; border: 1px solid var(--ink); border-radius: 3px;
+  }
+  .proj-link:hover { opacity: 0.8; }
+  .proj-link[hidden] { display: none; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="mark">TKLJ</span>
+    <nav>
+      <button data-view="portfolio" class="active">Portfolio</button>
+      <button data-view="rgpd">Confidentialité</button>
+      <button data-view="cgu">CGU</button>
+    </nav>
+  </div>
+</div>
+
+<main>
+
+  <!-- ===== PORTFOLIO ===== -->
+  <div id="portfolio" class="view active">
+
+    <div class="nameplate">
+      <div class="nameplate-row">
+        <div>
+          <h1>TOGBE Kodjo Luc Junior</h1>
+          <div class="role">Ingénieur junior en génie mécanique — maintenance des systèmes mécaniques</div>
+        </div>
+        <span class="tag">LOMÉ, TOGO</span>
+      </div>
+      <div class="nameplate-contact">
+        <a href="mailto:jlutogbe@gmail.com">jlutogbe@gmail.com</a>
+        <span>+228 99 91 03 06</span>
+        <span>+228 72 66 43 40</span>
+      </div>
+    </div>
+
+    <section class="block">
+      <h2>Profil</h2>
+      <p class="lead">Titulaire d'une licence professionnelle en génie mécanique et productique, spécialité maintenance des systèmes mécaniques. J'ai appris le métier sur le terrain, en cimenterie, en plasturgie et en atelier technique : inspection d'équipements, analyse vibratoire, lubrification et suivi GMAO. Je cherche à poursuivre en master pour approfondir la fiabilité et l'optimisation des systèmes industriels.</p>
+    </section>
+
+    <section class="block">
+      <h2>Domaines de compétence</h2>
+      <div class="grid-2">
+        <div class="skill-group">
+          <h3>Maintenance & fiabilité</h3>
+          <ul>
+            <li><b>Inspection & diagnostic</b> — analyse vibratoire, lubrification, suivi de l'état des équipements.</li>
+            <li><b>Gestion & suivi</b> — GMAO, fiches de vie, indicateurs du Maintenance Control Center.</li>
+            <li><b>Interventions</b> — maintenance préventive et corrective, diagnostic de pannes.</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Conception & process</h3>
+          <ul>
+            <li><b>CAO / DAO</b> — lecture de plans (avancé), SolidWorks (intermédiaire), CATIA.</li>
+            <li><b>Production</b> — changement de moules en plasturgie, paramétrage et démarrage machine.</li>
+            <li><b>Électrotechnique</b> — notions en électricité, hydraulique, pneumatique, bobinage.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Expérience professionnelle</h2>
+
+      <div class="entry">
+        <div class="period">04/2026 — 03/2027</div>
+        <div>
+          <div class="title">Stagiaire, Maintenance Control Center</div>
+          <div class="org">Scantogo</div>
+          <ul>
+            <li>Inspection technique des équipements industriels et collecte des données vibratoires.</li>
+            <li>Suivi des indicateurs de santé des équipements pour anticiper les défaillances.</li>
+            <li>Participation aux programmes de maintenance préventive, de graissage et de lubrification.</li>
+          </ul>
+        <a class="proj-link" data-link="mcc" target="_blank" rel="noopener noreferrer" hidden>Voir les documents</a>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="period">08/2024 — 03/2026</div>
+        <div>
+          <div class="title">Mécanicien de maintenance industrielle</div>
+          <div class="org">DMA — interventions chez Cimtogo & Scantogo</div>
+          <ul>
+            <li>Maintenance préventive et corrective sur équipements mécaniques lourds.</li>
+            <li>Diagnostic et traitement des pannes mécaniques en environnement cimentier.</li>
+          </ul>
+        <a class="proj-link" data-link="mecanicien" target="_blank" rel="noopener noreferrer" hidden>Voir les documents</a>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="period">07/2025 — 12/2025</div>
+        <div>
+          <div class="title">Opérateur technique, industrie plastique</div>
+          <div class="org">Rodis</div>
+          <ul>
+            <li>Montage, démontage et changement de moules sur machines de production.</li>
+            <li>Programmation, paramétrage, démarrage et surveillance des lignes de production.</li>
+          </ul>
+        <a class="proj-link" data-link="operateur" target="_blank" rel="noopener noreferrer" hidden>Voir les documents</a>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="period">05/2024 — 07/2024</div>
+        <div>
+          <div class="title">Stagiaire, implantation d'atelier technique</div>
+          <div class="org">CME Togo</div>
+          <ul>
+            <li>Participation à l'implantation d'un atelier technique dans un centre de formation.</li>
+            <li>Analyse des besoins, sélection des équipements, rédaction des fiches de vie.</li>
+          </ul>
+        <a class="proj-link" data-link="atelier" target="_blank" rel="noopener noreferrer" hidden>Voir les documents</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Projets académiques</h2>
+      <div class="project">
+        <div class="p-head"><span>Voiture électrique</span><span>2022 — 2023</span></div>
+        <p>Projet de professionnalisation à ESIG Global Success : étude des systèmes de transmission mécanique, modélisation des composants et assemblage du véhicule.</p>
+        <a class="proj-link" data-link="voiture" target="_blank" rel="noopener noreferrer" hidden>Voir les documents</a>
+      </div>
+      <div class="project">
+        <div class="p-head"><span>Étau rotatif & foyer amélioré</span><span>2021 — 2022</span></div>
+        <p>Modélisation mécanique et analyse cinématique d'un étau rotatif, et conception d'un foyer à charbon à rendement thermique amélioré.</p>
+        <a class="proj-link" data-link="etau" target="_blank" rel="noopener noreferrer" hidden>Voir les documents</a>
+      </div>
+
+      <div class="project">
+        <div class="p-head"><span>GMAO — Gestion de la lubrification</span><span>Outil Excel</span></div>
+        <p>Outil de gestion de la lubrification assistée par ordinateur, développé sous Excel : suivi des équipements, plan de lubrification, alertes de stock et tableau de bord.</p>
+        <a class="proj-link" data-link="gmao" target="_blank" rel="noopener noreferrer" hidden>Voir les documents</a>
+      </div>
+    </section>
+
+    <section class="block" id="documents" hidden>
+      <h2>Documents</h2>
+      <ul class="doc-list" id="doc-list"></ul>
+    </section>
+
+    <section class="block">
+      <div class="grid-2">
+        <div>
+          <h2>Formation & outils</h2>
+          <p style="margin:0;"><b>Licence pro. génie mécanique & productique</b><br>
+          <span style="color:var(--muted); font-size:0.9rem;">ESIG Global Success — 2021 – 2024 (mention assez bien)</span></p>
+          <div class="badges">
+            <span>SolidWorks</span><span>CATIA</span><span>GMAO</span><span>Excel</span>
+          </div>
+        </div>
+        <div>
+          <h2>Engagement associatif</h2>
+          <p style="margin:0;"><b>Trésorier, Groupe Jeunes Talents</b><br>
+          <span style="color:var(--muted); font-size:0.9rem;">URBIS Foundation</span></p>
+          <p style="margin-top:0.5rem;">Gestion financière, suivi des budgets et organisation d'activités.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ===== RGPD ===== -->
+  <div id="rgpd" class="view legal">
+    <h1>Politique de confidentialité</h1>
+    <div class="updated">Dernière mise à jour : septembre 2026</div>
+
+    <p>Cette page explique quelles données sont collectées sur ce site, pourquoi, et quels droits vous pouvez exercer, conformément aux principes du Règlement général sur la protection des données (RGPD).</p>
+
+    <h2>Responsable du traitement</h2>
+    <p>TOGBE Kodjo Luc Junior, Lomé, Togo. Contact : <a href="mailto:jlutogbe@gmail.com">jlutogbe@gmail.com</a>.</p>
+
+    <h2>Données collectées</h2>
+    <p>Ce site est une page de présentation statique. Aucun formulaire ne collecte de données en arrière-plan. Les seules données transmises sont celles que vous choisissez d'envoyer vous-même par e-mail ou par téléphone en utilisant les coordonnées affichées.</p>
+
+    <h2>Hébergement</h2>
+    <p>Le site est hébergé sur GitHub Pages. L'hébergeur peut journaliser des données techniques standard (adresse IP, type de navigateur) dans le cadre du fonctionnement normal du service, indépendamment de ce site.</p>
+
+    <h2>Cookies</h2>
+    <p>Ce site ne dépose aucun cookie de suivi ou de mesure d'audience.</p>
+
+    <h2>Vos droits</h2>
+    <p>Vous disposez d'un droit d'accès, de rectification, d'opposition et de suppression sur toute donnée personnelle que vous auriez transmise par e-mail. Pour exercer ces droits, écrivez à <a href="mailto:jlutogbe@gmail.com">jlutogbe@gmail.com</a>.</p>
+
+    <h2>Conservation</h2>
+    <p>Les échanges par e-mail sont conservés le temps nécessaire à la correspondance et supprimés sur simple demande.</p>
+  </div>
+
+  <!-- ===== CGU ===== -->
+  <div id="cgu" class="view legal">
+    <h1>Conditions générales d'utilisation</h1>
+    <div class="updated">Dernière mise à jour : septembre 2026</div>
+
+    <p>L'accès et l'utilisation de ce site impliquent l'acceptation pleine et entière des conditions décrites ci-dessous.</p>
+
+    <h2>Objet du site</h2>
+    <p>Ce site présente le profil professionnel, les expériences et les projets de TOGBE Kodjo Luc Junior. Il a un caractère purement informatif.</p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>Le contenu de ce site (textes, mise en page) est la propriété de TOGBE Kodjo Luc Junior, sauf mention contraire. Toute reproduction sans autorisation préalable est interdite.</p>
+
+    <h2>Exactitude des informations</h2>
+    <p>Les informations publiées sont mises à jour avec soin mais peuvent évoluer sans préavis. Elles ne constituent pas un engagement contractuel.</p>
+
+    <h2>Liens et contact</h2>
+    <p>Les coordonnées affichées sur ce site sont destinées à un usage professionnel. Toute utilisation abusive de ces informations est proscrite.</p>
+
+    <h2>Droit applicable</h2>
+    <p>Les présentes conditions sont soumises au droit togolais. Tout litige relève de la compétence des juridictions de Lomé, Togo.</p>
+  </div>
+
+</main>
+
+<footer>
+  <span>© TOGBE Kodjo Luc Junior</span>
+  <span>Lomé, Togo</span>
+</footer>
+
+<script>
+  const buttons = document.querySelectorAll('nav button');
+  const views = document.querySelectorAll('.view');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      views.forEach(v => v.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.view).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    });
+  });
+
+
+  /* ====== DOCUMENTS GOOGLE DRIVE ======
+     Pour ajouter un fichier : copie une ligne { ... } et remplis-la.
+     url = lien de partage Drive ("Tous les utilisateurs disposant du lien").
+     Une ligne sans url n'apparait pas sur le site. */
+  const DOCUMENTS = [
+    { name: "Curriculum vitae",         desc: "CV complet, format PDF",                url: "" },
+    { name: "Relevés de notes",         desc: "Licence pro. génie mécanique",          url: "" },
+    { name: "Rapport de stage",         desc: "Maintenance industrielle",              url: "" },
+    { name: "Plans SolidWorks",         desc: "Étau rotatif — dossier de conception",  url: "" },
+    { name: "Attestations & diplômes",  desc: "Pièces justificatives",                 url: "" }
+  ];
+
+  function driveId(url) {
+    const m = url.match(/\/d\/([\w-]+)/) || url.match(/[?&]id=([\w-]+)/);
+    return m ? m[1] : null;
+  }
+
+  (function renderDocs() {
+    const items = DOCUMENTS.filter(d => d.url && d.url.trim());
+    if (!items.length) return;
+    const list = document.getElementById('doc-list');
+    items.forEach(d => {
+      const li = document.createElement('li'); li.className = 'doc-item';
+      const info = document.createElement('div');
+      const n = document.createElement('div'); n.className = 'doc-name'; n.textContent = d.name; info.appendChild(n);
+      if (d.desc) { const e = document.createElement('div'); e.className = 'doc-desc'; e.textContent = d.desc; info.appendChild(e); }
+      const act = document.createElement('div'); act.className = 'doc-actions';
+      const view = document.createElement('a');
+      view.href = d.url; view.target = '_blank'; view.rel = 'noopener noreferrer';
+      view.className = 'primary'; view.textContent = 'Consulter'; act.appendChild(view);
+      const id = driveId(d.url);
+      if (id && d.url.includes('/file/')) {
+        const dl = document.createElement('a');
+        dl.href = 'https://drive.google.com/uc?export=download&id=' + id;
+        dl.target = '_blank'; dl.rel = 'noopener noreferrer'; dl.textContent = 'Télécharger'; act.appendChild(dl);
+      }
+      li.appendChild(info); li.appendChild(act); list.appendChild(li);
+    });
+    document.getElementById('documents').hidden = false;
+  })();
+
+  /* ====== LIENS DES PROJETS ET EXPERIENCES ======
+     Colle ton lien Drive entre les guillemets. Vide = le bouton n'apparait pas. */
+  const LIENS = {
+    etau:       "https://drive.google.com/drive/folders/14eD4Xp3Wnnr5h5mRwr6q5q814rNP-vh8",   // Étau rotatif & foyer amélioré
+    voiture:    "",   // Voiture électrique
+    atelier:    "",   // Stagiaire, implantation d'atelier technique
+    operateur:  "",   // Opérateur technique
+    mecanicien: "",   // Mécanicien de maintenance
+    mcc:        "",   // Stagiaire, Maintenance Control Center
+    gmao:       "https://drive.google.com/drive/folders/1B0c80Pt-kLSogR6FXY8_3ppWkMtULAOs"    // GMAO — Gestion de la lubrification
+  };
+  document.querySelectorAll('.proj-link').forEach(a => {
+    const u = (LIENS[a.dataset.link] || '').trim();
+    if (u) { a.href = u; a.hidden = false; }
+  });
+</script>
+
+</body>
+</html>
